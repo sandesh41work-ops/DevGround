@@ -3,26 +3,26 @@ import { useEffect, useRef, useState } from 'react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-  const countRef = useRef(0)
-  const increment = () => {
-    countRef.current++
-    console.log(countRef.current)
+
+  // Case 2 - what's the problem here?
+  const Timer = () => {
+    const [count, setCount] = useState(0)
+
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setCount(count + 1)
+      }, 1000)
+
+      return () => clearInterval(interval)
+    }, [])
+
+    return <h2>{count}</h2>
+
   }
-
-  useEffect(() => {
-    console.log('Component rendered')
-    
-    increment()
-  }, [count]);
-
   return (
     <>
       <section id="center">
-        <h1>useRef</h1>
-        <p>Count: {count}</p>
-        <p>Ref Count: {countRef.current}</p>
-        <button onClick={() => setCount(count + 1)}>Increment Count</button>
+        <Timer />
       </section>
 
     </>
